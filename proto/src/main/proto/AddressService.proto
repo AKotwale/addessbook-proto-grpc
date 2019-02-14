@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package com.skynet;
+option java_multiple_files=true;
+
+message Person {
+    string name = 1;
+    int32 id = 2;
+    string email = 3;
+
+    enum PhoneType {
+        MOBILE = 0;
+        HOME = 1;
+        WORK = 2;
+    }
+
+    message PhoneNumber {
+       string number = 1;
+       PhoneType type = 2;
+    }
+
+    repeated PhoneNumber phones = 4;
+}
+
+message AddressBook {
+    repeated Person people = 1;
+}
+
+message BookServiceResponse {
+    AddressBook addressBook = 1;
+}
+
+message PersonList {
+    repeated Person people =1;
+}
+
+message StandardResponse {
+    enum Status {
+        OK =0;
+        ERROR =1;
+    }
+    string statusMessage =1;
+}
+
+message Empty {
+
+}
+
+service AdressService {
+    rpc getAddressBook(Empty) returns (BookServiceResponse);
+
+    rpc addPersonToAddressBook(PersonList) returns (StandardResponse);
+
+    rpc deletePersonsFromAddressBook(PersonList) returns (StandardResponse);
+}
+
+
+
+
